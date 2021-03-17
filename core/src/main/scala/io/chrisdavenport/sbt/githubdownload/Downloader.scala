@@ -91,6 +91,10 @@ object Downloader {
     for {
       wd <- Sync[F].delay(System.getProperty("user.dir"))
       path <- Sync[F].delay(Paths.get(wd, target.localPath))
+      _ <- fs2.io.file.exists(blocker, path.getParent()).ifM(
+        Applicative[F].unit,
+        fs2.io.file.createDirectories(blocker, path.getParent()).void
+      )
       _ <- fs2.Stream(data)
           .through(fs2.text.utf8Encode)
           .through(
