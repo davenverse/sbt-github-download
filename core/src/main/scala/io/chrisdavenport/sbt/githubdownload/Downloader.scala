@@ -18,9 +18,11 @@ object Downloader {
   private val b64 = Base64.getMimeDecoder()
   
   def runGithubDownload[F[_]: Concurrent: Timer: ContextShift](targets: List[GithubDownloadTarget], token: Option[String]): F[Unit] = {
-    (Blocker[F], EmberClientBuilder.default[F].build).tupled.use{ case (blocker, client) => 
-      targets.traverse_(downloadFile(blocker, client)(_, token))
-    }
+    if (targets.nonEmpty) {
+      (Blocker[F], EmberClientBuilder.default[F].build).tupled.use{ case (blocker, client) => 
+        targets.traverse_(downloadFile(blocker, client)(_, token))
+      }
+    } else Applicative[F].unit
   }
 
   private def downloadFile[F[_]: Concurrent : ContextShift](blocker: Blocker, client: Client[F])(target: GithubDownloadTarget, token: Option[String]): F[Unit] = {

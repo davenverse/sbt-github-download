@@ -2,7 +2,7 @@ package io.chrisdavenport.sbt.githubdownload
 
 
 import sbt._
-// import Keys._
+import Keys._
 import cats.effect.{IO => CIO, ContextShift, Timer}
 
 object GithubDownloadPlugin extends AutoPlugin {
@@ -39,9 +39,9 @@ object GithubDownloadPlugin extends AutoPlugin {
     githubDownload := {
       val token = githubDownloadToken.value
       val artifacts = githubDownloadTargets.value
-
       Downloader.runGithubDownload[CIO](artifacts, token).unsafeRunSync
-    }
+    },
+    (Compile / compile) := ((Compile / compile) dependsOn githubDownload).value
   )
 
   
