@@ -13,6 +13,7 @@ import io.chrisdavenport.github.data.Content.{Content => ContentD, ContentFileDa
 import org.http4s.client.Client
 import java.util.Base64
 import io.chrisdavenport.github
+import java.nio.file.StandardOpenOption
 
 object Downloader {
   
@@ -97,7 +98,9 @@ object Downloader {
       _ <- fs2.Stream(data)
           .through(fs2.text.utf8Encode)
           .through(
-            fs2.io.file.writeAll(path, blocker)
+            fs2.io.file.writeAll(path, blocker, 
+              List(StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)
+            )
           ).compile.drain
     } yield ()
   }
