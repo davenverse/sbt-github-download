@@ -3,29 +3,9 @@ ThisBuild / scalaVersion := crossScalaVersions.value.last
 
 ThisBuild / githubWorkflowArtifactUpload := false
 
-def rubySetupSteps(cond: Option[String]) = Seq(
-  WorkflowStep.Use(
-    "ruby", "setup-ruby", "v1",
-    name = Some("Setup Ruby"),
-    params = Map("ruby-version" -> "2.6.0"),
-    cond = cond),
-
-  WorkflowStep.Run(
-    List(
-      "gem install saas",
-      "gem install jekyll -v 3.2.1"),
-    name = Some("Install microsite dependencies"),
-    cond = cond))
-
-ThisBuild / githubWorkflowBuildPreamble ++=
-  rubySetupSteps(None)
 
 ThisBuild / githubWorkflowBuild := Seq(
-  WorkflowStep.Sbt(List("test", "mimaReportBinaryIssues")),
-
-  WorkflowStep.Sbt(
-    List("site/makeMicrosite")
-  )
+  WorkflowStep.Sbt(List("test")),
 )
 
 ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
@@ -35,7 +15,7 @@ ThisBuild / githubWorkflowPublishTargetBranches :=
   Seq(RefPredicate.StartsWith(Ref.Tag("v")))
 
 ThisBuild / githubWorkflowPublishPreamble ++=
-  WorkflowStep.Use("olafurpg", "setup-gpg", "v3") +: rubySetupSteps(None)
+  WorkflowStep.Use("olafurpg", "setup-gpg", "v3") :: Nil
 
 ThisBuild / githubWorkflowPublish := Seq(
   WorkflowStep.Sbt(
@@ -45,12 +25,7 @@ ThisBuild / githubWorkflowPublish := Seq(
       "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
       "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
       "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
-      "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}")),
-
-  WorkflowStep.Sbt(
-    List("site/publishMicrosite"),
-    name = Some("Publish microsite")
-  )
+      "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"))
 )
 
 val http4sV = "0.21.15"
