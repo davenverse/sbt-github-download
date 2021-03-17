@@ -17,7 +17,8 @@ object GithubDownloadPlugin extends AutoPlugin {
       org: String,
       repo: String,
       repoPath: String,
-      localPath: String
+      localPath: String,
+      ref: Option[String] = None
     )
 
     val githubDownloadTargets: SettingKey[List[GithubDownloadTarget]] =
