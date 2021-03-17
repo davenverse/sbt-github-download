@@ -44,7 +44,7 @@ at that location. It checks the sha1 hash of the two files to confirm that they 
 
 ## Example
 
-So lets say you have 1 file that you want to keep up to date between repositories. This can be any file, but I'll use a simple file here. We'll also assume in this exmaple that you check this file into version control, so you want reproducible builds. Add this to your projects `build.sbt`
+So lets say you have 1 file that you want to keep up to date between repositories. This can be any file, but I'll use a simple file here. We'll also assume in this example that you check this file into version control, so you want reproducible builds. Add this to your projects `build.sbt`
 
 ```sbt
 githubDownloadTargets ++= Seq(
@@ -62,5 +62,7 @@ githubDownloadTargets ++= Seq(
 // Can not set at all if you can access your files via github publicly.
 githubDownloadToken := scala.sys.env.get("GITHUB_TOKEN")
 ```
+
+If the file is not already in the repository or you'd like to update the file execute, `sbt githubDownloadExecute`
 
 Then in whatever your CI is you'd want to run a check to confirm that your file is correct `sbt githubDownloadCheck` which will fail your CI if it is not up to date.
