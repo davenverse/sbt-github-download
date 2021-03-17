@@ -13,7 +13,6 @@ import io.chrisdavenport.github.data.Content.{Content => ContentD, ContentFileDa
 import org.http4s.client.Client
 import java.util.Base64
 import io.chrisdavenport.github
-import scala.tools.asm.ByteVector
 
 object Downloader {
   

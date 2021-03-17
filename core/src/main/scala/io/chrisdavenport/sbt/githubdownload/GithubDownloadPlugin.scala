@@ -9,8 +9,8 @@ object GithubDownloadPlugin extends AutoPlugin {
 
   override def trigger: PluginTrigger = allRequirements
 
-  implicit val CS : ContextShift[CIO] = CIO.contextShift(scala.concurrent.ExecutionContext.global)
-  implicit val T: Timer[CIO] = CIO.timer(scala.concurrent.ExecutionContext.global)
+  implicit lazy val CS : ContextShift[CIO] = CIO.contextShift(scala.concurrent.ExecutionContext.global)
+  implicit lazy val T: Timer[CIO] = CIO.timer(scala.concurrent.ExecutionContext.global)
 
   object autoImport {
     case class GithubDownloadTarget(
