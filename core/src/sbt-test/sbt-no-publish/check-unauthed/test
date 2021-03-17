@@ -1,2 +1,3 @@
 # Test versions are expected on project
-> githubDownload
+> githubDownloadExecute
+> githubDownloadCheck

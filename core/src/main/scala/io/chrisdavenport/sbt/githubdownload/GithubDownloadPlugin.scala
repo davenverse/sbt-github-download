@@ -28,7 +28,8 @@ object GithubDownloadPlugin extends AutoPlugin {
       settingKey[Option[String]]("Github token for downloading")
     
 
-    val githubDownload: TaskKey[Unit] = taskKey[Unit]("Main task to download artifacts")
+    val githubDownloadExecute: TaskKey[Unit] = taskKey[Unit]("Main task to download targets, overwriting current files")
+    val githubDownloadCheck: TaskKey[Unit] = taskKey[Unit]("Checks local versions of files are correct with remote store")
   }
 
 
@@ -36,12 +37,16 @@ object GithubDownloadPlugin extends AutoPlugin {
   override lazy val projectSettings = Seq(
     githubDownloadTargets := List(),
     githubDownloadToken := None,
-    githubDownload := {
+    githubDownloadExecute := {
       val token = githubDownloadToken.value
       val artifacts = githubDownloadTargets.value
       Downloader.runGithubDownload[CIO](artifacts, token).unsafeRunSync
     },
-    (Compile / compile) := ((Compile / compile) dependsOn githubDownload).value
+    githubDownloadCheck := {
+      val token = githubDownloadToken.value
+      val artifacts = githubDownloadTargets.value
+      Downloader.runGithubDownloadCheck[CIO](artifacts, token).unsafeRunSync
+    }
   )
 
   

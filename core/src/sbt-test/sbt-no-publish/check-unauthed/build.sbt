@@ -4,6 +4,6 @@ lazy val root = (project in file("."))
     organization := "askdfjakadjf",
     name := "fasdajhfdjah",
     githubDownloadTargets := List(
-      GithubDownloadTarget("http4s", "http4s", "README.md", "TESTREADME.md")
+      GithubDownloadTarget("davenverse", "mapref", "README.md", "TESTREADME.md")
     )
   )
