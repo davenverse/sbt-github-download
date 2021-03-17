@@ -21,8 +21,8 @@ object GithubDownloadPlugin extends AutoPlugin {
       ref: Option[String] = None
     )
 
-    val githubDownloadTargets: SettingKey[List[GithubDownloadTarget]] =
-      settingKey[List[GithubDownloadTarget]](
+    val githubDownloadTargets: SettingKey[Seq[GithubDownloadTarget]] =
+      settingKey[Seq[GithubDownloadTarget]](
         "Github Targets to download"
       )
     val githubDownloadToken: SettingKey[Option[String]] =
@@ -41,12 +41,12 @@ object GithubDownloadPlugin extends AutoPlugin {
     githubDownloadExecute := {
       val token = githubDownloadToken.value
       val artifacts = githubDownloadTargets.value
-      Downloader.runGithubDownload[CIO](artifacts, token).unsafeRunSync
+      Downloader.runGithubDownload[CIO](artifacts.toList, token).unsafeRunSync
     },
     githubDownloadCheck := {
       val token = githubDownloadToken.value
       val artifacts = githubDownloadTargets.value
-      Downloader.runGithubDownloadCheck[CIO](artifacts, token).unsafeRunSync
+      Downloader.runGithubDownloadCheck[CIO](artifacts.toList, token).unsafeRunSync
     }
   )
 
