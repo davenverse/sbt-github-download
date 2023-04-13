@@ -44,7 +44,7 @@ lazy val core = project.in(file("core"))
 
     scalacOptions += "-Ypartial-unification",
 
-    addCompilerPlugin("org.typelevel" % "kind-projector" % "0.11.3" cross CrossVersion.full),
+    addCompilerPlugin("org.typelevel" % "kind-projector" % "0.13.2" cross CrossVersion.full),
 
 
     scriptedLaunchOpts := { scriptedLaunchOpts.value ++
