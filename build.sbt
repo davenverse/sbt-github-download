@@ -1,4 +1,4 @@
-ThisBuild / crossScalaVersions := Seq("2.12.13")
+ThisBuild / crossScalaVersions := Seq("2.12.17")
 ThisBuild / scalaVersion := crossScalaVersions.value.last
 
 ThisBuild / githubWorkflowArtifactUpload := false
