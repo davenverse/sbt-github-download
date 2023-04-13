@@ -28,7 +28,7 @@ ThisBuild / githubWorkflowPublish := Seq(
       "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"))
 )
 
-val http4sV = "0.21.15"
+val http4sV = "0.21.34"
 
 // Projects
 lazy val `sbt-github-download` = project.in(file("."))
