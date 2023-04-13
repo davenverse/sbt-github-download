@@ -62,7 +62,7 @@ lazy val commonSettings = Seq(
   
 
   libraryDependencies ++= Seq(
-    "io.chrisdavenport"           %% "github"                     % "0.1.0",
+    "io.chrisdavenport"           %% "github"                     % "0.4.0",
 
     "org.http4s"                  %% "http4s-ember-client"        % http4sV,
     "org.http4s"                  %% "http4s-circe"               % http4sV,
